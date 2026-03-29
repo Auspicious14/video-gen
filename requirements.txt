@@ -1,0 +1,51 @@
+# ── requirements.txt ─────────────────────────────────────────────────────────
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+python-dotenv==1.0.1
+pydantic==2.7.1
+
+# AI stack
+# Mac: plain `pip install torch torchvision` (PyPI default, no --index-url)
+# Linux + CUDA: pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+torch                 # unpinned — let pip resolve the right wheel for your platform
+torchvision
+huggingface_hub>=0.34.0,<2.0
+diffusers==0.37.1
+transformers>=4.46.0
+accelerate>=1.0.0
+peft>=0.10.0
+safetensors==0.4.3
+# xformers — CUDA only, do NOT install on Mac (no matching wheel exists)
+# xformers==0.0.26.post1
+
+# Image + video
+Pillow>=10.3.0
+opencv-python==4.9.0.80
+numpy==1.26.4
+
+# Optional: fal.ai fallback
+fal-client==0.4.0
+
+# Optional: upscaling Python binding
+# basicsr==1.4.2
+# realesrgan==0.3.0
+
+# ─────────────────────────────────────────────────────────────────────────────
+# .env.example — copy to .env and fill in
+# ─────────────────────────────────────────────────────────────────────────────
+
+# DEV_MODE=true          # set to skip model loading during development
+
+# DEVICE=cuda            # cuda | cpu
+# NUM_FRAMES=16
+# FPS=8
+# WIDTH=512
+# HEIGHT=512
+# INFERENCE_STEPS=25
+# GUIDANCE_SCALE=7.5
+
+# ENABLE_UPSCALE=false
+# UPSCALE_FACTOR=2
+
+# FAL_API_KEY=           # fal.ai key for GPU fallback
+OPENAI_API_KEY=        # optional: GPT-4 prompt expansion
