@@ -17,10 +17,11 @@ ANIMATEDIFF_MOTION_ADAPTER = os.getenv(
     "ANIMATEDIFF_MOTION_ADAPTER",
     "guoyww/animatediff-motion-adapter-v1-5-3"
 )
-# Base SD 1.5 checkpoint used with AnimateDiff
+# DreamShaper handles humans, characters and complex scenes much better than
+# Realistic_Vision at low resolution. Still SD 1.5 compatible with AnimateDiff.
 BASE_SD_MODEL = os.getenv(
     "BASE_SD_MODEL",
-    "SG161222/Realistic_Vision_V5.1_noVAE"
+    "Lykon/DreamShaper"
 )
 # Stable Video Diffusion for img2video path
 SVD_MODEL = os.getenv(
@@ -43,12 +44,16 @@ def _detect_device() -> str:
 
 DEVICE      = os.getenv("DEVICE") or _detect_device()
 TORCH_DTYPE = "float16" if DEVICE == "cuda" else "float32"
-NUM_FRAMES      = int(os.getenv("NUM_FRAMES", "8"))    # 16 → 8, halves attention buffer
+
+# ── Runtime config ─────────────────────────────────────────────────────────────
+# Defaults are conservative (Mac/CPU). Override via .env on cloud GPU.
+NUM_FRAMES      = int(os.getenv("NUM_FRAMES", "8" if DEVICE != "cuda" else "16"))
 FPS             = int(os.getenv("FPS", "8"))
-WIDTH           = int(os.getenv("WIDTH", "256"))        # 512 → 256, quarters memory
-HEIGHT          = int(os.getenv("HEIGHT", "256"))
-INFERENCE_STEPS = int(os.getenv("INFERENCE_STEPS", "15"))  # 25 → 15, faster on Mac
+WIDTH           = int(os.getenv("WIDTH", "256" if DEVICE != "cuda" else "512"))
+HEIGHT          = int(os.getenv("HEIGHT", "256" if DEVICE != "cuda" else "512"))
+INFERENCE_STEPS = int(os.getenv("INFERENCE_STEPS", "15" if DEVICE != "cuda" else "25"))
 GUIDANCE_SCALE  = float(os.getenv("GUIDANCE_SCALE", "7.5"))
+
 
 # ── Upscaler ─────────────────────────────────────────────────────────────────
 ENABLE_UPSCALE  = os.getenv("ENABLE_UPSCALE", "false").lower() == "true"

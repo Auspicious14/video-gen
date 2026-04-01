@@ -78,8 +78,9 @@ Rules:
 - negative: comma-separated list of things to avoid. Include quality negatives AND
   scene-specific ones (e.g. for night scenes add "overexposed, bright daylight").
 - full_positive: the final assembled prompt ready to send to the diffusion model.
-  Order: [user prompt], [emotional_tone tokens], [style_suffix], [camera_suffix],
+  Order: (subject:1.4), [user prompt], [emotional_tone tokens], [style_suffix], [camera_suffix],
   [lighting], high detail, masterpiece, best quality.
+  Wrap the subject in (subject:1.4) to boost its attention weight in the diffusion model.
 
 Respond ONLY with valid JSON. No markdown fences, no preamble, no explanation.
 Schema:

@@ -18,14 +18,17 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Load models once at startup. Startup takes 30-90s depending on hardware."""
-    if not DEV_MODE:
-        from services.generation_engine import load_models
-        logger.info("Loading AI models (this takes a minute on first run)...")
-        load_models()
-        logger.info("Models ready.")
-    else:
+    if DEV_MODE:
         logger.warning("DEV_MODE active — models skipped.")
+    else:
+        logger.info("Loading AI models (this takes a minute on first run)...")
+        try:
+            from services.generation_engine import load_models
+            load_models()
+            logger.info("Models ready.")
+        except Exception as e:
+            logger.exception(f"Model loading failed: {e}")
+            raise  # crash fast — don't start server with broken state
     yield
     logger.info("Shutting down.")
 

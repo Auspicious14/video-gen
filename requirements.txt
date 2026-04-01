@@ -23,8 +23,7 @@ Pillow>=10.3.0
 opencv-python==4.9.0.80
 numpy==1.26.4
 
-# Optional: fal.ai fallback
-fal-client==0.4.0
+replicate>=0.25.0
 
 # Optional: upscaling Python binding
 # basicsr==1.4.2
@@ -48,4 +47,4 @@ fal-client==0.4.0
 # UPSCALE_FACTOR=2
 
 # FAL_API_KEY=           # fal.ai key for GPU fallback
-OPENAI_API_KEY=        # optional: GPT-4 prompt expansion
+# OPENAI_API_KEY=        # optional: GPT-4 prompt expansion
